@@ -31,6 +31,10 @@ int main()
     case 's':
     case 'S':
       printf("COMMAND: %c \n", c);
+      if (heapExists(heap)) {
+        delete[] heap->H;
+        delete heap;
+      }
       exit(0);
 
     case 'c':
