@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "util.h"
 
-int nextCommand(int* i, int* v, int* f, int* n, int* k)
+int nextCommand(int* i, int* v, int* f, int* n)
 {
   char c;
   while (1)
@@ -23,7 +23,7 @@ int nextCommand(int* i, int* v, int* f, int* n, int* k)
     if (c == 'i' || c == 'I')
     {
       scanf("%d", f);
-      scanf("%d", k);
+      scanf("%d", v);
       break;
     }
     if (c == 'd' || c == 'D')

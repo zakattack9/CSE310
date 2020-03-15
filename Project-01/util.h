@@ -1,6 +1,6 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
-int nextCommand(int* i, int* v, int* f, int* n, int* k);
+int nextCommand(int* i, int* v, int* f, int* n);
 
 #endif

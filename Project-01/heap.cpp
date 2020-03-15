@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <limits.h>
 #include <math.h>
 #include "heap.h"
 
@@ -21,25 +22,46 @@ void BuildHeap(HEAP* heap, ELEMENT A[], int n)
   }
 
   // max-heapify the element array first
-  for (int i = (n / 2) - 1; i >= 0; i--) {
+  for (int i = n / 2; i >= 1; i--) {
     MaxHeapify(A, n, i);
   }
 
   // copy array into heap (index-one based array)
   for (int i = 1; i <= n; i++) {
-    heap->H[i] = A[i - 1];
+    heap->H[i] = A[i];
   }
   heap->size = n;
 }
 
 void Insert(HEAP* heap, int flag, int k)
 {
-  heap->size++;
-  
+  if (heap->size + 1 > heap->capacity) {
+    printf("Error: exceeds heap capacity");
+  } else {
+    heap->size++;
+    int i = heap->size;
+    heap->H[i].key = INT_MIN;
+    IncreaseKey(heap, flag, i, k);
+  }
 }
 
 int DeleteMax(HEAP* heap, int flag)
 {
+  printf("Before delete max operation:\n");
+  if (flag == 2) printHeap(heap); // print heap before
+
+  if (heap->size < 1) {
+    printf("Error: heap empty\n");
+  } else {
+    int max = heap->H[1].key;
+    heap->H[1].key = heap->H[heap->size].key;
+    heap->size--;
+    MaxHeapify(heap->H, heap->size, 1);
+
+    printf("After delete max operation:\n");
+    if (flag == 2) printHeap(heap); // print heap after
+    return max;
+  }
 
 }
 
@@ -84,17 +106,16 @@ int Parent(int i)
 // returns index of left child node
 int Left(int i)
 {
-  return 2 * i + 1;
+  return 2 * i;
 }
 
 // return index of right child node
 int Right(int i)
 {
-  return 2 * i + 2;
+  return 2 * i + 1;
 }
 
 // organizes array into a max heap starting at a specific index
-// arrays are zero-index based
 void MaxHeapify(ELEMENT A[], int n, int i)
 {
   int largest = i; // index of largest element in subtree
@@ -102,12 +123,12 @@ void MaxHeapify(ELEMENT A[], int n, int i)
   int right = Right(i);
 
   // check if left child is larger than element at index i
-  if (left < n && A[left].key > A[largest].key) {
+  if (left <= n && A[left].key > A[largest].key) {
     largest = left;
   }
   
   // check if right child is larger than element at index i
-  if (right < n && A[right].key > A[largest].key) {
+  if (right <= n && A[right].key > A[largest].key) {
     largest = right;
   }
 
