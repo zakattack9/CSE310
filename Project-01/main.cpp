@@ -15,7 +15,7 @@ void loadArrValues(ELEMENT arr[]);
 int main()
 {
   // variables for the parser...
-  HEAP *heap;
+  HEAP *heap = NULL;
   char c;
   int i, v, f, n, k; // parameters for heap fucntions
   int arrSize;       // holds size of array read in from "HEAPinput.txt"
@@ -23,46 +23,57 @@ int main()
   while (1)
   {
     c = nextCommand(&i, &v, &f, &n, &k);
-    printf("THIS IS CHAR %c\n", c);
     switch (c)
     {
     case 's':
     case 'S':
-      printf("COMMAND: %c.\n", c);
+      printf("COMMAND: %c \n", c);
       exit(0);
 
     case 'c':
     case 'C':
+      printf("COMMAND: %c %d\n", c, n);
       heap = Initialize(n);
       break;
 
     case 'r':
     case 'R':
+      printf("COMMAND: %c \n", c);
       arrSize = loadArrSize();
       ELEMENT arr[arrSize];
       loadArrValues(arr);
       BuildHeap(heap, arr, arrSize);
-      // printf("SIZE OF ARR %d\n", heap->size);
-      // for (int i = 0; i <= n + 1; i++) {
-      //   printf("HEAP %d = %d\n", i, heap->H[i].key);
-      // }
       break;
 
     case 'w':
     case 'W':
+      printf("COMMAND: %c \n", c);
+      printHeap(heap);
       break;
 
     case 'i':
     case 'I':
+      printf("COMMAND: %c %d %d \n", c, f, k);
       break;
 
     case 'd':
     case 'D':
+      printf("COMMAND: %c %d \n", c, f);
       break;
 
     case 'k':
     case 'K':
-      printf("COMMAND: %c %d %d %d.\n", c, i, v, f);
+      printf("COMMAND: %c %d %d %d \n", c, f, i, v);
+      if (f != 2 && f != 1) {
+        printf("Error: invalid flag value\n");
+        break;
+      }
+      if (i <= 0 || i > heap->size) {
+        printf("Error: invalid index\n");
+        break;
+      }
+
+      IncreaseKey(heap, f, i, v);
       break;
 
     default:

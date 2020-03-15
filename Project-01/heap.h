@@ -24,6 +24,5 @@ int Parent(int i);
 int Left(int i);
 int Right(int i);
 void MaxHeapify(ELEMENT A[], int n, int i);
-void PrintHeap(HEAP* heap, int flag);
 
 #endif

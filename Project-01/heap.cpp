@@ -16,7 +16,7 @@ void BuildHeap(HEAP* heap, ELEMENT A[], int n)
 {
   // add check to see if HEAP is null
   if (n > heap->capacity) {
-    printf("Array size is larger than heap capacity\n");
+    printf("Error: array size exceeds heap capacity\n");
     return;
   }
 
@@ -45,12 +45,33 @@ int DeleteMax(HEAP* heap, int flag)
 
 void IncreaseKey(HEAP* heap, int flag, int index, int value)
 {
+  printf("Before increase key operation:\n");
+  if (flag == 2) printHeap(heap); // print heap before
 
+  if (value < heap->H[index].key) {
+    printf("Error: new key is smaller than current key\n");
+  } else {
+    heap->H[index].key = value;
+    while(index > 1 && heap->H[Parent(index)].key < heap->H[index].key) {
+      // swap key and its parent
+      ELEMENT temp = heap->H[index];
+      heap->H[index] = heap->H[Parent(index)];
+      heap->H[Parent(index)] = temp;
+      index = Parent(index);
+    }
+  }
+
+  printf("After increase key operation:\n");
+  if (flag == 2) printHeap(heap); // print heap after
 }
 
 void printHeap(HEAP* heap)
 {
-
+  printf("Capacity = %d\n", heap->capacity);
+  printf("Size = %d\n", heap->size);
+  for (int i = 1; i <= heap->size; i++) {
+    printf("%d\n", heap->H[i].key);
+  }
 }
 
 // HELPER HEAP FUNCTIONS
@@ -66,7 +87,7 @@ int Left(int i)
   return 2 * i + 1;
 }
 
-// return iindex of right child node
+// return index of right child node
 int Right(int i)
 {
   return 2 * i + 2;
@@ -98,9 +119,4 @@ void MaxHeapify(ELEMENT A[], int n, int i)
     // recursively call max-heapify to float element at i down tree 
     MaxHeapify(A, n, largest);
   }
-}
-
-void PrintHeap(HEAP* heap, int flag)
-{
-
 }

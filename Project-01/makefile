@@ -10,7 +10,7 @@ $(EXEC) :main.o util.o heap.o
 	$(CC) -o $(EXEC) main.o util.o heap.o
 
 # main.o depends on the files main.h main.cpp
-main.o	: main.cpp
+main.o 	: main.cpp
 	$(CC) $(CFLAGS) main.cpp
 
 util.o	: util.h util.cpp
