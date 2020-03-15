@@ -33,46 +33,63 @@ void BuildHeap(HEAP* heap, ELEMENT A[], int n)
   heap->size = n;
 }
 
-void Insert(HEAP* heap, int flag, int k)
+void Insert(HEAP* heap, int flag, int v)
 {
-  if (heap->size + 1 > heap->capacity) {
-    printf("Error: exceeds heap capacity");
-  } else {
-    heap->size++;
-    int i = heap->size;
-    heap->H[i].key = INT_MIN;
-    IncreaseKey(heap, flag, i, k);
+  // if (heap->size + 1 > heap->capacity) {
+  //   printf("Error: exceeds heap capacity");
+  // }
+  if (flag == 2) {
+    printf("Before insert operation:\n");
+    printHeap(heap); // print heap after
+  }
+
+  heap->size++;
+  int height = ceil(log2(heap->size)); // calculate height of heap
+  int newCapacity = pow(2, height);
+  if (newCapacity > heap->capacity) {
+    heap->capacity = newCapacity;
+  }
+  int i = heap->size;
+  heap->H[i].key = INT_MIN;
+  IncreaseKey(heap, 1, i, v);
+
+  if (flag == 2) {
+    printf("After insert operation:\n");
+    printHeap(heap); // print heap after
   }
 }
 
 int DeleteMax(HEAP* heap, int flag)
 {
-  printf("Before delete max operation:\n");
-  if (flag == 2) printHeap(heap); // print heap before
-
-  if (heap->size < 1) {
-    printf("Error: heap empty\n");
-  } else {
-    int max = heap->H[1].key;
-    heap->H[1].key = heap->H[heap->size].key;
-    heap->size--;
-    MaxHeapify(heap->H, heap->size, 1);
-
-    printf("After delete max operation:\n");
-    if (flag == 2) printHeap(heap); // print heap after
-    return max;
+  if (flag == 2) {
+    printf("Before delete max operation:\n");
+    printHeap(heap); // print heap before
   }
 
+  int max = heap->H[1].key;
+  heap->H[1].key = heap->H[heap->size].key;
+  heap->size--;
+  MaxHeapify(heap->H, heap->size, 1);
+
+  if (flag == 2) {
+    printf("After delete max operation:\n");
+    printHeap(heap); // print heap after
+  }
+  
+  return max;
 }
 
 void IncreaseKey(HEAP* heap, int flag, int index, int value)
 {
-  printf("Before increase key operation:\n");
-  if (flag == 2) printHeap(heap); // print heap before
 
   if (value < heap->H[index].key) {
     printf("Error: new key is smaller than current key\n");
   } else {
+    if (flag == 2) {
+      printf("Before increase key operation:\n");
+      printHeap(heap); // print heap before
+    }
+
     heap->H[index].key = value;
     while(index > 1 && heap->H[Parent(index)].key < heap->H[index].key) {
       // swap key and its parent
@@ -81,10 +98,12 @@ void IncreaseKey(HEAP* heap, int flag, int index, int value)
       heap->H[Parent(index)] = temp;
       index = Parent(index);
     }
-  }
 
-  printf("After increase key operation:\n");
-  if (flag == 2) printHeap(heap); // print heap after
+    if (flag == 2) {
+      printf("After increase key operation:\n");
+      printHeap(heap); // print heap after
+    }
+  }
 }
 
 void printHeap(HEAP* heap)
