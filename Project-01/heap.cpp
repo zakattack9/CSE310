@@ -9,7 +9,7 @@ HEAP* Initialize(int n)
   HEAP* heap = new HEAP;
   heap->capacity = n;
   heap->size = 0;
-  heap->H = new ELEMENT[n];
+  heap->H = new ELEMENT[n + 1]; // heap starts at index 1
   return heap;
 }
 
@@ -38,7 +38,7 @@ void Insert(HEAP* heap, int flag, int v)
   // if (heap->size + 1 > heap->capacity) {
   //   printf("Error: exceeds heap capacity");
   // }
-  
+
   if (flag == 2) {
     printf("Before insert operation:\n");
     printHeap(heap); // print heap after
