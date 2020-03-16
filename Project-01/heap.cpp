@@ -6,7 +6,7 @@
 // MAIN HEAP FUNCTIONS
 HEAP* Initialize(int n)
 {
-  HEAP* heap = new HEAP;
+  HEAP* heap = new HEAP; // allocate memory for heap object
   heap->capacity = n;
   heap->size = 0;
   heap->H = new ELEMENT[n + 1]; // heap starts at index 1
@@ -15,7 +15,6 @@ HEAP* Initialize(int n)
 
 void BuildHeap(HEAP* heap, ELEMENT A[], int n)
 {
-  // add check to see if HEAP is null
   if (n > heap->capacity) {
     printf("Error: array size exceeds heap capacity\n");
     return;
@@ -26,7 +25,7 @@ void BuildHeap(HEAP* heap, ELEMENT A[], int n)
     MaxHeapify(A, n, i);
   }
 
-  // copy array into heap (index-one based array)
+  // copy max-heapified array into heap (index-one based array)
   for (int i = 1; i <= n; i++) {
     heap->H[i] = A[i];
   }
@@ -41,12 +40,12 @@ void Insert(HEAP* heap, int flag, int v)
 
   if (flag == 2) {
     printf("Before insert operation:\n");
-    printHeap(heap); // print heap after
+    printHeap(heap);
   }
 
   heap->size++;
   int height = ceil(log2(heap->size)); // calculate height of heap
-  int newCapacity = pow(2, height);
+  int newCapacity = pow(2, height); // increase heap capacity by power of 2
   if (newCapacity > heap->capacity) {
     ExpandHeapCapacity(heap, newCapacity);
     heap->capacity = newCapacity;
@@ -59,7 +58,7 @@ void Insert(HEAP* heap, int flag, int v)
 
   if (flag == 2) {
     printf("After insert operation:\n");
-    printHeap(heap); // print heap after
+    printHeap(heap);
   }
 }
 
@@ -67,17 +66,17 @@ int DeleteMax(HEAP* heap, int flag)
 {
   if (flag == 2) {
     printf("Before delete max operation:\n");
-    printHeap(heap); // print heap before
+    printHeap(heap);
   }
 
-  int max = heap->H[1].key;
-  heap->H[1].key = heap->H[heap->size].key;
+  int max = heap->H[1].key; // max of heap is the root of heap tree
+  heap->H[1].key = heap->H[heap->size].key; // set root of heap to last element
   heap->size--;
-  MaxHeapify(heap->H, heap->size, 1);
+  MaxHeapify(heap->H, heap->size, 1); // max heapify starting at root
 
   if (flag == 2) {
     printf("After delete max operation:\n");
-    printHeap(heap); // print heap after
+    printHeap(heap);
   }
   
   return max;
@@ -91,10 +90,10 @@ void IncreaseKey(HEAP* heap, int flag, int index, int value)
   } else {
     if (flag == 2) {
       printf("Before increase key operation:\n");
-      printHeap(heap); // print heap before
+      printHeap(heap);
     }
 
-    heap->H[index].key = value;
+    heap->H[index].key = value; // set to key to new value at index
     while(index > 1 && heap->H[Parent(index)].key < heap->H[index].key) {
       // swap key and its parent
       ELEMENT temp = heap->H[index];
@@ -105,7 +104,7 @@ void IncreaseKey(HEAP* heap, int flag, int index, int value)
 
     if (flag == 2) {
       printf("After increase key operation:\n");
-      printHeap(heap); // print heap after
+      printHeap(heap);
     }
   }
 }
@@ -165,15 +164,19 @@ void MaxHeapify(ELEMENT A[], int n, int i)
   }
 }
 
+// increases capacity of heap and deallocates memory for old heap array
 void ExpandHeapCapacity(HEAP* heap, int newCapacity)
 {
   ELEMENT* oldHeap = heap->H;
-  heap->H = new ELEMENT[newCapacity];
+  heap->H = new ELEMENT[newCapacity]; // create new heap array with newCapacity
+  // copy elements of old heap array to new heap array
   for (int i = 1; i <= heap->capacity; i++) {
     heap->H[i].key = oldHeap[i].key;
   }
 
   if (oldHeap != NULL) {
+    // deallocate memory of old heap array
     delete[] oldHeap;
+    oldHeap = NULL;
   }
 }

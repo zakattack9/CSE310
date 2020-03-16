@@ -23,7 +23,7 @@ int main()
   // variables for the parser...
   HEAP* heap = NULL;
   ELEMENT* arr = NULL;
-  char c;
+  char c; // holds last command inputted by user
   int i, v, f, n; // parameters for heap fucntions
   int arrSize; // holds size of array read in from "HEAPinput.txt"
   int deletedMax; // holds max key deleted from heap
@@ -36,7 +36,6 @@ int main()
     case 'S':
       printf("COMMAND: %c\n", c);
       cleanup(heap, arr);
-
       exit(0);
 
     case 'c':
@@ -111,6 +110,7 @@ int loadArrSize()
 
   if (file.is_open())
   {
+    // read in first line form file (size of array)
     file >> size;
     file.close();
   }
@@ -129,6 +129,7 @@ void loadArrValues(ELEMENT arr[])
     int index = 1;
     while (file >> num)
     {
+      // create ELEMENT array starting at index 1
       ELEMENT el;
       el.key = num;
       arr[index++] = el;
@@ -185,14 +186,17 @@ bool validIndex(HEAP* heap, int index)
 void cleanup(HEAP* heap, ELEMENT* arr)
 {
   if (arr != NULL) {
+    // deallocate memory used to store array read in from file
     delete[] arr;
     arr = NULL;
   }
   if (heap != NULL) {
     if (heap->H != NULL) {
+      // deallocate memory used to store heap array
       delete[] heap->H;
       heap->H = NULL;
     }
+    // deallocate memory for entire heap object
     delete heap;
     heap = NULL;
   }
