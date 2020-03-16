@@ -38,6 +38,7 @@ void Insert(HEAP* heap, int flag, int v)
   // if (heap->size + 1 > heap->capacity) {
   //   printf("Error: exceeds heap capacity");
   // }
+  
   if (flag == 2) {
     printf("Before insert operation:\n");
     printHeap(heap); // print heap after
@@ -47,8 +48,11 @@ void Insert(HEAP* heap, int flag, int v)
   int height = ceil(log2(heap->size)); // calculate height of heap
   int newCapacity = pow(2, height);
   if (newCapacity > heap->capacity) {
+    ExpandHeapCapacity(heap, newCapacity);
     heap->capacity = newCapacity;
   }
+
+  // set last element in heap to an arbitrarily small number
   int i = heap->size;
   heap->H[i].key = INT_MIN;
   IncreaseKey(heap, 1, i, v);
@@ -158,5 +162,18 @@ void MaxHeapify(ELEMENT A[], int n, int i)
     A[largest] = temp;
     // recursively call max-heapify to float element at i down tree 
     MaxHeapify(A, n, largest);
+  }
+}
+
+void ExpandHeapCapacity(HEAP* heap, int newCapacity)
+{
+  ELEMENT* oldHeap = heap->H;
+  heap->H = new ELEMENT[newCapacity];
+  for (int i = 1; i <= heap->capacity; i++) {
+    heap->H[i].key = oldHeap[i].key;
+  }
+
+  if (oldHeap != NULL) {
+    delete[] oldHeap;
   }
 }
