@@ -1,5 +1,6 @@
 Zak Sakata
 CSE310
+Project 1
 Language: C++
 
 test_1.txt, test_2.txt, ..., test_10.txt are the 10 (posted) test cases, each worth 3 points, for a total of 30 points. These tests, as well as the unposted test cases, are all or nothing: there is no partial credit.
