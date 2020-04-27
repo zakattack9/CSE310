@@ -58,7 +58,7 @@ int FindAdjacentVertex(ELEMENT* H, int v, int size) {
 }
 
 void printPath(ELEMENT* H, int s, int t, int flag) {
-  if (H[t].d == INT_MAX) {
+  if (H[t].d == INT_MAX || H[t].d < 0) {
     printf("Error: node %d not reachable from node %d\n", t, s);
   } else if (flag == 1) {
     int length = H[t].d;

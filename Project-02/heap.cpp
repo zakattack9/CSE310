@@ -7,7 +7,7 @@
 
 void BuildHeap(ELEMENT* H, int n)
 {
-  // max-heapify the element array first
+  // min-heapify the element array first
   for (int i = n / 2; i >= 1; i--) {
     MinHeapify(H, n, i);
   }
@@ -15,10 +15,10 @@ void BuildHeap(ELEMENT* H, int n)
 
 ELEMENT DeleteMin(ELEMENT* H, int* size)
 {
-  ELEMENT min = H[1]; // max of heap is the root of heap tree
+  ELEMENT min = H[1]; // min of heap is the root of heap tree
   H[1] = H[*size]; // set root of heap to last element
   *size = *size - 1;
-  MinHeapify(H, *size, 1); // max heapify starting at root
+  MinHeapify(H, *size, 1); // min-heapify starting at root
   return min;
 }
 
