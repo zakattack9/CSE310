@@ -13,11 +13,12 @@ string fileName = "Ginput.txt";
 void loadGraph(GRAPH* graph);
 void buildAdjacencyList(GRAPH* graph, ifstream &file);
 bool graphExists(GRAPH* graph);
+bool validFlag(int flag);
 
 int main()
 {
-  // ELEMENT* arr = NULL;
   GRAPH* graph = NULL;
+  ELEMENT* computedDijkstra = NULL;
   char c; // holds last command inputted by user
   int s, t, f; // parameters for graph fucntions
   while (1)
@@ -51,10 +52,11 @@ int main()
     case 'F':
       printf("COMMAND: %c %d %d %d\n", c, s, t, f);
       if (!graphExists(graph)) break;
-
+      if (!validFlag(f)) break;
+      // check for valid s and t
       Initialize(graph);
-      Dijkstra(graph, s);
-      // min-heapify heap
+      computedDijkstra = Dijkstra(graph, s);
+      // printPath(computedDijkstra, s, t, f);
       break;
 
     default:
@@ -106,6 +108,14 @@ void buildAdjacencyList(GRAPH* graph, ifstream &file) {
 bool graphExists(GRAPH* graph) {
   if (graph == NULL) {
     printf("Error: graph not initialized\n");
+    return false;
+  }
+  return true;
+}
+
+bool validFlag(int flag) {
+  if (flag != 0 && flag != 1) {
+    printf("Error: invalid flag value\n");
     return false;
   }
   return true;

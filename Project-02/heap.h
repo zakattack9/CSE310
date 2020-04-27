@@ -1,10 +1,12 @@
 #ifndef _HEAP_H_
 #define _HEAP_H_
+#include "graph.h"
 
 // MAIN HEAP FUNCTIONS
-// void BuildHeap(HEAP* heap, ELEMENT A[], int n);
-// int DeleteMin(HEAP* heap, int flag);
-// void printHeap(HEAP* heap);
+void BuildHeap(ELEMENT* H, int n);
+ELEMENT DeleteMin(ELEMENT* H, int* size);
+void DecreaseKey(ELEMENT* H, int index);
+void printHeap(ELEMENT* H, int size);
 
 // HELPER HEAP FUNCTIONS
 int Parent(int i);

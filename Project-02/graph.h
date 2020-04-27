@@ -22,10 +22,11 @@ struct GRAPH {
 
 // MAIN GRAPH FUNCTIONS
 void Initialize(GRAPH* G);
-void Dijkstra(GRAPH* G, int s); // where s is the source node
-void InitializeSingleSource(GRAPH* G, int s); // where s is the source node
-void Relax(int u, int v, int w); // where u and v are vertices and w is the weight between
-int Weight(int u, int v); // returns weight between vertices u and v
+ELEMENT* Dijkstra(GRAPH* G, int s); // where s is the source node
+void InitializeSingleSource(GRAPH* G, int s, int size); // where s is the source node
+void Relax(ELEMENT* H, ELEMENT u, int v, int w); // where u and v are vertices and w is the weight between
+int FindAdjacentVertex(ELEMENT* H, int v, int size); // finds index of vertex v in heap
+void printPath(ELEMENT* H, int s, int t, int flag);
 void printGraph(GRAPH* G);
 
 #endif
