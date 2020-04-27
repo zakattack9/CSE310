@@ -4,7 +4,6 @@
 #include "heap.h"
 
 // MAIN HEAP FUNCTIONS
-
 void BuildHeap(ELEMENT* H, int n)
 {
   // min-heapify the element array first

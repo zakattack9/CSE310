@@ -68,7 +68,7 @@ void printPath(ELEMENT* H, int s, int t, int flag) {
     ELEMENT node;
     for (node = H[t]; node.d != 0; node = H[node.p]) {
       string nodeStr = ", " + to_string(node.node);
-      path.insert(0, nodeStr);
+      path.insert(0, nodeStr); // prepends to start of string
     }
     printf("PATH: %d%s\n", node.node, path.c_str());
   }
