@@ -14,11 +14,13 @@ void loadGraph(GRAPH* graph);
 void buildAdjacencyList(GRAPH* graph, ifstream &file);
 bool graphExists(GRAPH* graph);
 bool validFlag(int flag);
+bool validNodes(int v, int s, int t);
+bool validArgs(int v, int s, int t, int f);
 
 int main()
 {
   GRAPH* graph = NULL;
-  ELEMENT* computedDijkstra = NULL;
+  ELEMENT* computedNodes = NULL;
   char c; // holds last command inputted by user
   int s, t, f; // parameters for graph fucntions
   while (1)
@@ -52,11 +54,11 @@ int main()
     case 'F':
       printf("COMMAND: %c %d %d %d\n", c, s, t, f);
       if (!graphExists(graph)) break;
-      if (!validFlag(f)) break;
-      // check for valid s and t
+      if (!validArgs(graph->v, s, t, f)) break;
+
       Initialize(graph);
-      computedDijkstra = Dijkstra(graph, s);
-      // printPath(computedDijkstra, s, t, f);
+      computedNodes = Dijkstra(graph, s);
+      printPath(computedNodes, s, t, f);
       break;
 
     default:
@@ -119,4 +121,19 @@ bool validFlag(int flag) {
     return false;
   }
   return true;
+}
+
+bool validNodes(int v, int s, int t) {
+  if (s < 1 || t < 1 || s > v || t > v) {
+    printf("Error: one or more invalid nodes\n");
+    return false;
+  }
+  return true;
+}
+
+bool validArgs(int v, int s, int t, int f) {
+  bool valid = true;
+  if (!validNodes(v, s, t)) valid = false;
+  if (!validFlag(f)) valid = false;
+  return valid;
 }

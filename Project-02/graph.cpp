@@ -17,22 +17,17 @@ void Initialize(GRAPH* G) {
 ELEMENT* Dijkstra(GRAPH* G, int s) {
   int size = G->v;
   InitializeSingleSource(G, s, size);
-  printf("INITIALIZED SINGLE SOURCE\n");
   ELEMENT* S = new ELEMENT[G->v + 1];
   while (size != 0) {
     ELEMENT u = DeleteMin(G->H, &size);
-    printf("EXTRACTED NODE %d\n", u.node);
     S[u.node] = u;
     LIST* uAdj = G->A[u.node]; // adjacency linked list for vertex u
     do {
       int vIndex = FindAdjacentVertex(G->H, uAdj->neighbor, size);
-      printf("INDEX OF V: %d", vIndex);
-      // Relax(G->H, u, vIndex, uAdj->weight);
-      // printf("RELAXED NODES %d %d\n", u.node, G->H[vIndex].node);
+      Relax(G->H, u, vIndex, uAdj->weight);
       uAdj = uAdj->next;
-    } while (uAdj->next != NULL);
+    } while (uAdj != NULL);
   }
-  printf("FINISHED DIJKSTRAS\n");
   return S;
 }
 
@@ -63,19 +58,19 @@ int FindAdjacentVertex(ELEMENT* H, int v, int size) {
 }
 
 void printPath(ELEMENT* H, int s, int t, int flag) {
-  if (flag == 1) {
+  if (H[t].d == INT_MAX) {
+    printf("Error: node %d not reachable from node %d\n", t, s);
+  } else if (flag == 1) {
     int length = H[t].d;
-    printf("LENGTH: %d", length);
+    printf("LENGTH: %d\n", length);
   } else if (flag == 0) {
     string path = "";
-    ELEMENT node = H[t];
-    while (node.d != 0) {
+    ELEMENT node;
+    for (node = H[t]; node.d != 0; node = H[node.p]) {
       string nodeStr = ", " + to_string(node.node);
       path.insert(0, nodeStr);
-      node = H[node.p];
     }
-    // path.insert(0, to_string(node.node));
-    printf("%d%s\n", node.node, path.c_str());
+    printf("PATH: %d%s\n", node.node, path.c_str());
   }
 }
 

@@ -17,14 +17,14 @@ ELEMENT DeleteMin(ELEMENT* H, int* size)
 {
   ELEMENT min = H[1]; // max of heap is the root of heap tree
   H[1] = H[*size]; // set root of heap to last element
-  *size--;
+  *size = *size - 1;
   MinHeapify(H, *size, 1); // max heapify starting at root
   return min;
 }
 
 void DecreaseKey(ELEMENT* H, int index)
 {
-  while(index > 1 && H[Parent(index)].d < H[index].d) {
+  while(index > 1 && H[Parent(index)].d > H[index].d) {
     // swap key and its parent
     ELEMENT temp = H[index];
     H[index] = H[Parent(index)];
