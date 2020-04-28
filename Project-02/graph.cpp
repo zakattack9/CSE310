@@ -18,10 +18,11 @@ ELEMENT* Dijkstra(GRAPH* G, int s) {
   int size = G->v;
   InitializeSingleSource(G, s, size);
   ELEMENT* S = new ELEMENT[G->v + 1];
-  while (size != 0) {
+  while (size >= 1) {
     ELEMENT u = DeleteMin(G->H, &size);
     S[u.node] = u;
     LIST* uAdj = G->A[u.node]; // adjacency linked list for vertex u
+    if (uAdj == NULL) continue; // handles node without neighbors
     do {
       int vIndex = FindAdjacentVertex(G->H, uAdj->neighbor, size);
       Relax(G->H, u, vIndex, uAdj->weight);
@@ -81,6 +82,10 @@ void printGraph(GRAPH* G) {
   printf("%d %d\n", v, e);
   for (int i = 1; i <= v; i++) {
     printf("%d : ", i);
+    if (G->A[i] == NULL) { // handles node without neighbors
+      printf("\n");
+      continue;
+    }
     LIST* A = G->A[i];
     while (A->next != NULL) {
       printf("(%d, %d); ", A->neighbor, A->weight);

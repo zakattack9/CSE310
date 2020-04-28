@@ -149,6 +149,7 @@ void cleanup(GRAPH* graph, ELEMENT* computedNodes) {
 
     // delete linked lists in adjacency list
     for (int i = 1; i <= graph->v; i++) {
+      if (graph->A[i] == NULL) continue; // handles node without neighbor
       do {
         LIST* next = graph->A[i]->next;
         delete graph->A[i];
