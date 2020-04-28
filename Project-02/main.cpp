@@ -16,6 +16,7 @@ bool graphExists(GRAPH* graph);
 bool validFlag(int flag);
 bool validNodes(int v, int s, int t);
 bool validArgs(int v, int s, int t, int f);
+void cleanup(GRAPH* graph, ELEMENT* computedNodes);
 
 int main()
 {
@@ -31,7 +32,7 @@ int main()
     case 's':
     case 'S':
       printf("COMMAND: %c\n", c);
-      
+      cleanup(graph, computedNodes);
       exit(0);
 
     case 'r':
@@ -136,4 +137,37 @@ bool validArgs(int v, int s, int t, int f) {
   if (!validNodes(v, s, t)) valid = false;
   if (!validFlag(f)) valid = false;
   return valid;
+}
+
+void cleanup(GRAPH* graph, ELEMENT* computedNodes) {
+  if (graph != NULL) {
+    // delete min-heap
+    if (graph->H != NULL) {
+      delete[] graph->H;
+      graph->H = NULL;
+    }
+
+    // delete linked lists in adjacency list
+    for (int i = 1; i <= graph->v; i++) {
+      do {
+        LIST* next = graph->A[i]->next;
+        delete graph->A[i];
+        graph->A[i] = next;
+      } while(graph->A[i] != NULL);
+    }
+
+    // delete adjacency list
+    delete[] graph->A;
+    graph->A = NULL;
+
+    // delete graph struct
+    delete graph;
+    graph = NULL;
+  }
+
+  if (computedNodes != NULL) {
+    // delete computed nodes from Dijkstra's
+    delete[] computedNodes;
+    computedNodes = NULL;
+  }
 }
