@@ -20,7 +20,6 @@ ELEMENT* Dijkstra(GRAPH* G, int s) {
   ELEMENT* S = new ELEMENT[G->v + 1];
   while (size != 0) {
     ELEMENT u = DeleteMin(G->H, &size);
-    // printf("\nDELETED MIN: %d\n", u.node);
     S[u.node] = u;
     LIST* uAdj = G->A[u.node]; // adjacency linked list for vertex u
     do {
@@ -44,7 +43,6 @@ void InitializeSingleSource(GRAPH* G, int s, int size) {
 void Relax(ELEMENT* H, ELEMENT u, int v, int w) {
   if (v == 0) return;
   if (H[v].d > u.d + w) {
-    // printf("RELAX V(%d): %d WITH U(%d): %d + WEIGHT: %d\n", H[v].node, H[v].d, u.node, u.d, w);
     H[v].d = u.d + w;
     H[v].p = u.node;
     DecreaseKey(H, v);
